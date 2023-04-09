@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="/css/times.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <h1> 选择时间段 </h1>
+
+    <div class="times">
+        {% for i, time in spans %}
+        <div class="box time">
+            <a href="/go/{{ i }}">
+                {{ time.data['yysjd']}}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
