@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@latest/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>选择医生</title>
+</head>
+
+<body>
+    <div class="container text-center container-fluid">
+        <div class="row">
+            <h1>选择医生</h1>
+        </div>
+
+        <div class="row">
+            <button class="btn btn-outline-secondary" type="button" onclick="location.href='/search';">前往搜索</button>
+        </div>
+
+        <div class="row list-group">
+            {% for doctor in doctors %}
+            <div class="list-group-item" onclick="location.href='/doctor?{{doctor.params()}}';">
+                <h4>{{doctor.name}}</h4>
+                <h6>{{doctor.location}}</h6>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@latest/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

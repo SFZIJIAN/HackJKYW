@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@latest/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <title>搜索医生</title>
+</head>
+
+<body>
+    <div class="container text-center">
+        <div class="row">
+            <h1>搜索医生</h1>
+        </div>
+
+        <div class="row input-group">
+            <input type="text" class="form-control" placeholder="医生姓名" aria-label="医生姓名"
+                aria-describedby="button-addon2" id="text_input" />
+            <button class="btn btn-outline-secondary" type="button" id="search_btn">搜索</button>
+        </div>
+
+        <div class="row list-group" id="list">
+
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@latest/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            function enable() {
+                search_btn.prop('disabled', false);
+                search_btn.text('搜索');
+            }
+
+            function disable() {
+                search_btn.prop('disabled', true);
+                search_btn.text('正在搜索……(请耐心等待)');
+            }
+
+            function display(response) {
+                response.forEach(function (item) {
+                    console.log(item);
+                    $('#list').append(
+                        `<div class="list-group-item" onclick="location.href='/doctor?hospital_id=${item['hospital_id']}&department_id=${item['department_id']}&doctor_id=${item['doctor_id']}';">
+                                <h4>${item['doctor_name']}</h4>
+                                <h6>${item['hospital_name']}</h6>
+                                <h6>${item['department_name']}</h6>
+                            </div>`);
+                });
+
+                enable();
+            }
+
+            function onError(xhr, status, error) {
+                list.append(
+                    `<div class="list-group-item">
+                            <p>错误: ${error}</p>
+                        </div>`
+                );
+
+                enable();
+            }
+
+            function onSearchButtonClicked() {
+                disable();
+                list.empty();
+                keyword = text_input.val();
+                $.ajax({
+                    url: '/search_api', method: 'GET', data: { keyword: keyword },
+                    success: display,
+                    error: onError
+                })
+            }
+
+            let search_btn = $('#search_btn');
+            let text_input = $('#text_input');
+            let list = $('#list');
+
+            search_btn.click(onSearchButtonClicked);
+        });
+    </script>
+</body>
+
+</html>
